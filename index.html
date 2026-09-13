@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Career Journey Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+
+    <!-- App Container -->
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <h2>DS Journey</h2>
+                    <span>Long-Term Tracker</span>
+                </div>
+                <button class="mobile-close-btn" id="mobileCloseBtn">×</button>
+            </div>
+
+            <div class="sidebar-search">
+                <input type="text" id="globalSearch" placeholder="Search roadmap, notes..." autocomplete="off">
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-target="dashboard">🏠 <span>Dashboard</span></a>
+                <a href="#roadmap" class="nav-item" data-target="roadmap">🗺️ <span>Roadmap</span></a>
+                <a href="#learn" class="nav-item" data-target="learn">📚 <span>Learn (Sprints)</span></a>
+                <a href="#coding" class="nav-item" data-target="coding">💻 <span>Coding Practice</span></a>
+                <a href="#projects" class="nav-item" data-target="projects">📊 <span>Projects</span></a>
+                <a href="#english" class="nav-item" data-target="english">🇬🇧 <span>English System</span></a>
+                <a href="#revision" class="nav-item" data-target="revision">🔄 <span>Revision System</span></a>
+                <a href="#achievements" class="nav-item" data-target="achievements">🏆 <span>Achievements</span></a>
+                <a href="#analytics" class="nav-item" data-target="analytics">📈 <span>Analytics</span></a>
+                <a href="#notes" class="nav-item" data-target="notes">📝 <span>Notes Bank</span></a>
+                <a href="#settings" class="nav-item" data-target="settings">⚙️ <span>Settings</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="streak-badge-mini">
+                    🔥 <span id="sidebarStreakCount">0</span> Day Streak
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="main-content">
+            
+            <!-- Top Mobile Bar -->
+            <header class="top-bar">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+                <div class="top-bar-title" id="topBarTitle">Dashboard</div>
+                <div class="top-bar-right">
+                    <span class="live-status-pill">● Active System</span>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div class="views-container">
+
+                <!-- 1. DASHBOARD VIEW -->
+                <section id="dashboard" class="view-section active">
+                    <div class="welcome-banner glass-card">
+                        <div class="welcome-text">
+                            <h1>Data Science Journey</h1>
+                            <p>Welcome back 👋. Keep pushing forward on your engineering path.</p>
+                        </div>
+                        <div class="quick-stats-row">
+                            <div class="q-stat">
+                                <span class="q-num" id="dashStreak">0</span>
+                                <span class="q-label">Day Streak 🔥</span>
+                            </div>
+                            <div class="q-stat">
+                                <span class="q-num" id="dashCompletedTasks">0 / 0</span>
+                                <span class="q-label">Completed Tasks</span>
+                            </div>
+                            <div class="q-stat">
+                                <span class="q-num" id="dashOverallPct">0%</span>
+                                <span class="q-label">Overall Progress</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="glass-card spotlight-card">
+                            <h3>Current Sprint</h3>
+                            <div class="current-sprint-box">
+                                <h4 id="dashCurrentSprintName">Sprint 1 — Python Foundation</h4>
+                                <p id="dashCurrentSprintDesc">Master core syntax, data types, loops, and logic foundation.</p>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar-fill" id="dashSprintBar" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text" id="dashSprintProgressText">0% Complete</span>
+                                <button class="btn-primary mt-15" onclick="navigateToView('learn')">Continue Learning →</button>
+                            </div>
+                        </div>
+
+                        <div class="glass-card spotlight-card">
+                            <h3>Next Uncompleted Task</h3>
+                            <div class="next-task-box" id="dashNextTaskBox">
+                                <p class="text-muted">No pending tasks found. Great job or start a new sprint!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card mt-20">
+                        <h3>Today's Focus & Daily Target</h3>
+                        <div class="todays-focus-checklist" id="dashFocusChecklist">
+                            <!-- Populated via JS -->
+                        </div>
+                        <button class="btn-success mt-15" id="markDayCompleteBtn" onclick="markDayComplete()">Mark Today Complete ✅</button>
+                    </div>
+                </section>
+
+                <!-- 2. ROADMAP VIEW -->
+                <section id="roadmap" class="view-section">
+                    <div class="section-header">
+                        <h2>Complete Data Science Roadmap</h2>
+                        <p>A multi-month professional progression from core programming to production-ready deployment.</p>
+                    </div>
+                    <div class="roadmap-grid" id="roadmapGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </section>
+
+                <!-- 3. LEARN VIEW (SPRINT WORKSPACE) -->
+                <section id="learn" class="view-section">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2>Interactive Sprint Workspace</h2>
+                            <p>Study topics, check off tasks, and track individual sprint modules.</p>
+                        </div>
+                        <div class="sprint-select-wrapper">
+                            <select id="activeSprintSelector" class="custom-select" onchange="switchActiveSprint(this.value)">
+                                <!-- Populated via JS -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="sprint-workspace-card glass-card">
+                        <div class="sprint-workspace-header">
+                            <h3 id="workspaceSprintTitle">Select a Sprint</h3>
+                            <span class="badge" id="workspaceSprintStatus">Status</span>
+                        </div>
+                        <div id="workspaceContent">
+                            <!-- Detailed sprint days/tasks injected here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. CODING PRACTICE VIEW -->
+                <section id="coding" class="view-section">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2>Coding Practice Tracker</h2>
+                            <p>Track your technical problem-solving across Python, SQL, DSA, and Machine Learning.</p>
+                        </div>
+                        <button class="btn-primary" onclick="openAddCodingModal()">+ Add Problem</button>
+                    </div>
+                    <div class="filters-row mb-15">
+                        <button class="filter-btn active" onclick="filterCoding('all', event)">All</button>
+                        <button class="filter-btn" onclick="filterCoding('Python', event)">Python</button>
+                        <button class="filter-btn" onclick="filterCoding('SQL', event)">SQL</button>
+                        <button class="filter-btn" onclick="filterCoding('DSA', event)">DSA</button>
+                        <button class="filter-btn" onclick="filterCoding('ML', event)">ML Practice</button>
+                    </div>
+                    <div class="glass-card table-card">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Problem Name</th>
+                                    <th>Category</th>
+                                    <th>Difficulty</th>
+                                    <th>Status</th>
+                                    <th>Date Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="codingTableBody">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 5. PROJECTS VIEW -->
+                <section id="projects" class="view-section">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2>Real-World Data Science Projects</h2>
+                            <p>Build an impressive portfolio by documenting end-to-end industry implementations.</p>
+                        </div>
+                    </div>
+                    <div class="projects-grid" id="projectsGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </section>
+
+                <!-- 6. ENGLISH LEARNING VIEW -->
+                <section id="english" class="view-section">
+                    <div class="section-header">
+                        <h2>English & Communication Learning System</h2>
+                        <p>Master technical terminology, spoken fluency, and interview articulation.</p>
+                    </div>
+                    <div class="glass-card mb-20">
+                        <div class="flex-between">
+                            <h3>English Progress Overview</h3>
+                            <span id="englishProgressText" class="bold-highlight">0% Completed</span>
+                        </div>
+                        <div class="progress-bar-wrap mt-10">
+                            <div class="progress-bar-fill" id="englishProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="english-modules-grid" id="englishModulesGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </section>
+
+                <!-- 7. REVISION SYSTEM VIEW -->
+                <section id="revision" class="view-section">
+                    <div class="section-header">
+                        <h2>Spaced Revision System</h2>
+                        <p>Review completed topics to reinforce long-term retention in your neural memory.</p>
+                    </div>
+                    <div class="glass-card table-card">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Topic / Concept</th>
+                                    <th>Source Sprint</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="revisionTableBody">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 8. ACHIEVEMENTS VIEW -->
+                <section id="achievements" class="view-section">
+                    <div class="section-header">
+                        <h2>Achievements & Badges</h2>
+                        <p>Milestone awards unlocked automatically as your competency and persistence expand.</p>
+                    </div>
+                    <div class="achievements-grid" id="achievementsGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </section>
+
+                <!-- 9. ANALYTICS VIEW -->
+                <section id="analytics" class="view-section">
+                    <div class="section-header">
+                        <h2>Performance Analytics</h2>
+                        <p>Deep metrics visualizing your consistency, module completions, and technical growth.</p>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="glass-card">
+                            <h3>Category Breakdown</h3>
+                            <div class="analytics-list" id="analyticsCategoryList">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+                        <div class="glass-card">
+                            <h3>Streak & Activity Summary</h3>
+                            <div class="stat-big-display">
+                                <span id="analyticsStreakBig">0</span>
+                                <label>Current Active Streak</label>
+                            </div>
+                            <div class="stat-sub-display mt-20">
+                                <div>Longest Streak: <strong id="analyticsLongestStreak">0</strong> Days</div>
+                                <div>Total Tasks Done: <strong id="analyticsTotalTasksDone">0</strong></div>
+                                <div>Total Coding Problems: <strong id="analyticsTotalCoding">0</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 10. NOTES BANK VIEW -->
+                <section id="notes" class="view-section">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2>Personal Notes Bank</h2>
+                            <p>Capture technical snippets, formulas, and architectural thoughts.</p>
+                        </div>
+                        <button class="btn-primary" onclick="openAddNoteModal()">+ Add Note</button>
+                    </div>
+                    <div class="notes-grid" id="notesGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </section>
+
+                <!-- 11. SETTINGS VIEW -->
+                <section id="settings" class="view-section">
+                    <div class="section-header">
+                        <h2>System Settings</h2>
+                        <p>Configure theme, backup, data restoration, and persistent storage management.</p>
+                    </div>
+                    <div class="settings-card glass-card">
+                        <div class="setting-item">
+                            <div>
+                                <h4>Theme Mode</h4>
+                                <p>Switch between modern dark-tech and light aesthetic.</p>
+                            </div>
+                            <button class="btn-secondary" onclick="toggleThemeMode()">Toggle Theme</button>
+                        </div>
+                        <hr class="setting-divider">
+                        <div class="setting-item">
+                            <div>
+                                <h4>Export Progress Data</h4>
+                                <p>Download all your tasks, notes, coding problems, and streaks as a JSON backup file.</p>
+                            </div>
+                            <button class="btn-primary" onclick="exportData()">Export JSON</button>
+                        </div>
+                        <hr class="setting-divider">
+                        <div class="setting-item">
+                            <div>
+                                <h4>Import Progress Data</h4>
+                                <p>Restore your backup JSON file to seamlessly migrate your progress.</p>
+                            </div>
+                            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+                            <button class="btn-secondary" onclick="document.getElementById('importFile').click()">Import JSON</button>
+                        </div>
+                        <hr class="setting-divider">
+                        <div class="setting-item">
+                            <div>
+                                <h4 class="text-danger">Reset All Progress</h4>
+                                <p>Permanently wipe all stored data and start your journey fresh from scratch.</p>
+                            </div>
+                            <button class="btn-danger" onclick="confirmResetProgress()">Reset Progress</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals & Toasts Container -->
+    <div id="modalOverlay" class="modal-overlay">
+        <!-- Dynamic Modals Injected via JS -->
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
